@@ -25,8 +25,8 @@ public class ReservaDeAsientos {
 	public void reservarAsientoSiEstaVacio() {
 		int fila;
 		int columna;
-		boolean reserva=false;
-		while(reserva==false) {
+		String seguir="";
+		while(!seguir.equals("no")) {
 			System.out.println("Ingrese la fila en la que desea reservar:");
 			fila=teclado.nextInt()-1;
 			System.out.println("Ingrese la columna en la que desea reservar:");
@@ -34,8 +34,8 @@ public class ReservaDeAsientos {
 			
 			if(asientos[fila][columna].equals("l")) {
 				asientos[fila][columna]="x";
-				System.out.println("Asiento reservado");
-				reserva=true;
+				System.out.println("Asiento reservado, desea seguir reservando? Ingrese si o no");
+				seguir=teclado.next().toLowerCase();
 			}else {
 				System.out.println("El asiento ya está reservado, pruebe otra posicion");
 			}			
@@ -46,8 +46,6 @@ public class ReservaDeAsientos {
 		ReservaDeAsientos r= new ReservaDeAsientos();
 		r.cargarAsientosVacios();
 		r.reservarAsientoSiEstaVacio();	
-		r.mostrarAsientos();
-		r.reservarAsientoSiEstaVacio();
 		r.mostrarAsientos();
 	}
 	
