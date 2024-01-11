@@ -1,5 +1,6 @@
 package reservaDeAsientos;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ReservaDeAsientos {
@@ -23,24 +24,46 @@ public class ReservaDeAsientos {
 	}
 	
 	public void reservarAsientoSiEstaVacio() {
-		int fila;
-		int columna;
-		String seguir="";
-		while(!seguir.equals("no")) {
-			System.out.println("Ingrese la fila en la que desea reservar:");
-			fila=teclado.nextInt()-1;
-			System.out.println("Ingrese la columna en la que desea reservar:");
-			columna=teclado.nextInt()-1;
-			
-			if(asientos[fila][columna].equals("l")) {
-				asientos[fila][columna]="x";
-				System.out.println("Asiento reservado, desea seguir reservando? Ingrese si o no");
-				seguir=teclado.next().toLowerCase();
-			}else {
-				System.out.println("El asiento ya está reservado, pruebe otra posicion");
-			}			
-		}
+	    int fila;
+	    int columna;
+	    String seguir = "";
+	    while (!seguir.equals("no")) {
+	    	try {
+	    		System.out.println("Ingrese la fila en la que desea reservar:");
+	    		fila = teclado.nextInt() - 1;
+	    		System.out.println("Ingrese la columna en la que desea reservar:");
+	    		columna = teclado.nextInt() - 1;
+	    		
+	    		seguir = this.hacerUnaReservaSiSePuedeYContinuarSiQuiere(fila, columna, seguir);
+	    	} catch (InputMismatchException e) {
+	            System.out.println("Error: Debe ingresar un número entero. Inténtelo nuevamente.");
+	            teclado.next(); 
+	    	}
+	    }
 	}
+
+	
+	
+	public String hacerUnaReservaSiSePuedeYContinuarSiQuiere(int fila, int columna, String seguir) {
+	    if (asientos[fila][columna].equals("l")) {
+	        asientos[fila][columna] = "x";
+	        System.out.println("Asiento reservado, desea seguir reservando? Ingrese si o no");
+	        seguir = teclado.next().toLowerCase();
+	        return this.comprobarSiONo(seguir);
+	    } else {
+	        System.out.println("El asiento ya está reservado, pruebe otra posicion");
+	        return seguir;
+	    }
+	}
+
+	public String comprobarSiONo(String palabra) {
+	    while (!palabra.equals("si") && !palabra.equals("no")) {
+	        System.out.println("Palabra incorrecta, Ingrese si o no");
+	        palabra = teclado.next().toLowerCase();
+	    }
+	    return palabra;
+	}
+
 	
 	public static void main(String[] args) {
 		ReservaDeAsientos r= new ReservaDeAsientos();
